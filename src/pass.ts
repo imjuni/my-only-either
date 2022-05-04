@@ -24,7 +24,7 @@ export function fail<TFAIL>(value: TFAIL): IFail<TFAIL> {
   };
 }
 
-export function isFail<TFAIL>(value: IFail<TFAIL>): value is IFail<TFAIL> {
+export function isFail<TFAIL>(value: PassFailEither<TFAIL, any>): value is IFail<TFAIL> {
   if (value.type === 'fail') {
     return true;
   }
@@ -32,10 +32,22 @@ export function isFail<TFAIL>(value: IFail<TFAIL>): value is IFail<TFAIL> {
   return false;
 }
 
-export function isPass<IPASS>(value: IPass<IPASS>): value is IPass<IPASS> {
+export function isPass<IPASS>(value: PassFailEither<any, IPASS>): value is IPass<IPASS> {
   if (value.type === 'pass') {
     return true;
   }
 
   return false;
 }
+
+export type TPickFail<T extends PassFailEither<any, any>> = [T] extends [
+  PassFailEither<infer U, any>,
+]
+  ? U
+  : never;
+
+export type TPickPass<T extends PassFailEither<any, any>> = [T] extends [
+  PassFailEither<any, infer U>,
+]
+  ? U
+  : never;

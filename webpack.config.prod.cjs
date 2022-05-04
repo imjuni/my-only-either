@@ -32,7 +32,7 @@ const config = {
     ],
   },
 
-  plugins: [new webpackBar({ name: '-my-simple-either' })],
+  plugins: [new webpackBar({ name: '-my-only-either' })],
 
   entry: {
     index: ['./src/index.ts'],
