@@ -43,3 +43,11 @@ export function isRight<IRIGHT>(value: Either<any, IRIGHT>): value is IRight<IRI
 export type TPickLeft<T extends Either<any, any>> = [T] extends [Either<infer U, any>] ? U : never;
 
 export type TPickRight<T extends Either<any, any>> = [T] extends [Either<any, infer U>] ? U : never;
+
+export type TPickILeft<T extends Either<any, any>> = [T] extends [Either<infer U, any>]
+  ? ILeft<U>
+  : never;
+
+export type TPickIRight<T extends Either<any, any>> = [T] extends [Either<any, infer U>]
+  ? IRight<U>
+  : never;

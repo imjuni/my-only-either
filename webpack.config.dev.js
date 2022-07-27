@@ -1,18 +1,13 @@
-const webpack = require('webpack');
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
-const tsconfigPathsWebpackPlugin = require('tsconfig-paths-webpack-plugin');
-const webpackNodeExternals = require('webpack-node-externals');
-const webpackBar = require('webpackbar');
+const TsconfigPathsWebpackPlugin = require('tsconfig-paths-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 const distPath = path.resolve(path.join(__dirname, 'dist'));
 
 const config = {
-  externals: [
-    webpackNodeExternals({
-      allowlist: ['tslib'],
-    }),
-  ],
-  mode: 'production',
+  devtool: 'inline-source-map',
+  mode: 'development',
   target: 'node',
 
   resolve: {
@@ -26,13 +21,13 @@ const config = {
     },
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     plugins: [
-      new tsconfigPathsWebpackPlugin({
-        configFile: 'tsconfig.prod.json',
+      new TsconfigPathsWebpackPlugin({
+        configFile: 'tsconfig.json',
       }),
     ],
   },
 
-  plugins: [new webpackBar({ name: '-my-only-either' })],
+  plugins: [new WebpackBar({ name: '-my-only-either' })],
 
   entry: {
     index: ['./src/index.ts'],
@@ -45,7 +40,7 @@ const config = {
   },
 
   optimization: {
-    minimize: true, // <---- disables uglify.
+    minimize: false, // <---- disables uglify.
     // minimizer: [new UglifyJsPlugin()] if you want to customize it.
   },
 
@@ -60,7 +55,7 @@ const config = {
         loader: 'ts-loader',
         test: /\.tsx?$/,
         options: {
-          configFile: 'tsconfig.prod.json',
+          configFile: 'tsconfig.json',
         },
       },
     ],

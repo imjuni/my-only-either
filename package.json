@@ -1,19 +1,26 @@
 {
   "name": "my-only-either",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Only support either interface",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/imjuni/my-only-either.git"
   },
   "scripts": {
+    "prebuild": "npm run clean",
     "build": "tsc",
     "clean": "rimraf ./dist",
-    "webpack:prod": "cross-env NODE_ENV=production webpack --config webpack.config.prod.cjs",
-    "webpack:dev": "cross-env NODE_ENV=production webpack --config webpack.config.dev.cjs",
-    "prepub": "npm run clean && npm run webpack:prod",
+    "dts-bundle": "dts-bundle-generator dist/src/index.d.ts -o dist/index.d.ts --no-banner",
+    "postdts-bundle": "rimraf dist/src",
+    "prewebpack:prod": "npm run clean",
+    "webpack:prod": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
+    "postwebpack:prod": "npm run dts-bundle",
+    "prewebpack:dev": "npm run clean",
+    "webpack:dev": "cross-env NODE_ENV=production webpack --config webpack.config.dev.js",
+    "postwebpack:dev": "npm run dts-bundle",
+    "prepub": "npm run webpack:dev",
     "pub": "npm publish --registry http://localhost:8901 --force",
-    "prepub:prod": "npm run clean && npm run webpack:prod",
+    "prepub:prod": "npm run webpack:prod",
     "pub:prod": "npm publish",
     "lint": "eslint --ext ts,tsx ./src/*"
   },
@@ -22,6 +29,7 @@
     "typescript"
   ],
   "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "files": [
     "dist"
   ],
@@ -38,6 +46,7 @@
     "@typescript-eslint/eslint-plugin-tslint": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "cross-env": "^7.0.3",
+    "dts-bundle-generator": "^6.12.0",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
@@ -55,6 +64,7 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0",
     "webpackbar": "^5.0.2"
   }
