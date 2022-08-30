@@ -13,9 +13,9 @@
       }
     },
     {
-      "files": ".tjsclirc",
+      "files": "tsconfig.*",
       "options": {
-        "parser": "json5"
+        "parser": "json"
       }
     }
   ]
